@@ -36,15 +36,14 @@ app.post("/api/shorturl", async function (req, res) {
 
 app.get("/api/shorturl/:short_url", async function (req, res) {
   console.log(req.params);
-  res.json(req.params);
-  // try {
-  //   const short_url = parseInt(req.params.short_url);
-  //   const url = await URL.findOne({ short_url });
-  //   res.redirect(url.original_url);
-  // } catch (e) {
-  //   console.error(e);
-  //   return res.json({ error: "Error Occurred. You broke my code" });
-  // }
+  try {
+    const short_url = parseInt(req.params.short_url);
+    const url = await URL.findOne({ short_url });
+    res.redirect(url.original_url);
+  } catch (e) {
+    console.error(e);
+    return res.json({ error: "Error Occurred. You broke my code" });
+  }
 });
 
 const main = async () => {
