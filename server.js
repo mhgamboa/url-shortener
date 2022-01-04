@@ -23,6 +23,7 @@ app.post("/api/shorturl", async function (req, res) {
   const original_url = req.body.url;
   const regex = /^http:\/\//;
   if (!original_url.match(regex)) return res.json({ error: "invalid url" });
+  console.log("original-url:", original_url);
 
   try {
     const short_url = (await URL.find({}).count()) + 1;
