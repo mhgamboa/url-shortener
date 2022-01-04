@@ -37,6 +37,7 @@ app.post("/api/shorturl", async function (req, res) {
 });
 
 app.get("/api/shorturl/:short_url", async function (req, res) {
+  console.log(req.params);
   try {
     const short_url = parseInt(req.params.short_url);
     console.log(short_url, typeof short_url);
