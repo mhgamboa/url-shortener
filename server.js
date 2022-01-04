@@ -21,14 +21,12 @@ app.get("/", function (req, res) {
 // Your first API endpoint
 app.post("/api/shorturl", async function (req, res) {
   const original_url = req.body.url;
-  console.log("original-url:", original_url);
   const regex = /^http:\/\//;
   if (!original_url.match(regex)) return res.json({ error: "invalid url" });
 
   try {
     const short_url = (await URL.find({}).count()) + 1;
     await URL.create({ original_url, short_url });
-    console.log({ original_url, short_url });
     res.json({ original_url, short_url });
   } catch (e) {
     console.error(e);
@@ -38,15 +36,15 @@ app.post("/api/shorturl", async function (req, res) {
 
 app.get("/api/shorturl/:short_url", async function (req, res) {
   console.log(req.params);
-  try {
-    const short_url = parseInt(req.params.short_url);
-    console.log(short_url, typeof short_url);
-    const url = await URL.findOne({ short_url });
-    res.redirect(url.original_url);
-  } catch (e) {
-    console.error(e);
-    return res.json({ error: "Error Occurred. You broke my code" });
-  }
+  res.json(req.params);
+  // try {
+  //   const short_url = parseInt(req.params.short_url);
+  //   const url = await URL.findOne({ short_url });
+  //   res.redirect(url.original_url);
+  // } catch (e) {
+  //   console.error(e);
+  //   return res.json({ error: "Error Occurred. You broke my code" });
+  // }
 });
 
 const main = async () => {
