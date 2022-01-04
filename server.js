@@ -27,6 +27,7 @@ app.post("/api/shorturl", async function (req, res) {
   try {
     const short_url = (await URL.find({}).count()) + 1;
     await URL.create({ original_url, short_url });
+    console.log({ original_url, short_url });
     res.json({ original_url, short_url });
   } catch (e) {
     console.error(e);
