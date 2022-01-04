@@ -21,9 +21,9 @@ app.get("/", function (req, res) {
 // Your first API endpoint
 app.post("/api/shorturl", async function (req, res) {
   const original_url = req.body.url;
+  console.log("original-url:", original_url);
   const regex = /^http:\/\//;
   if (!original_url.match(regex)) return res.json({ error: "invalid url" });
-  console.log("original-url:", original_url);
 
   try {
     const short_url = (await URL.find({}).count()) + 1;
@@ -39,6 +39,7 @@ app.post("/api/shorturl", async function (req, res) {
 app.get("/api/shorturl/:short_url", async function (req, res) {
   try {
     const short_url = parseInt(req.params.short_url);
+    console.log(short_url, typeof short_url);
     const url = await URL.findOne({ short_url });
     res.redirect(url.original_url);
   } catch (e) {
