@@ -53,10 +53,12 @@ app.get("/api/shorturl/:shorturl", async function (req, res) {
 
 const main = async () => {
   try {
-    connectDB(process.env.MONGO_URI);
+    await connectDB(process.env.MONGO_URI);
     app.listen(port, function () {
       console.log(`Listening on port ${port}`);
     });
-  } catch (error) {}
+  } catch (error) {
+    console.error("db failed");
+  }
 };
 main();
