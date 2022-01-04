@@ -46,6 +46,7 @@ app.get("/api/shorturl/:shorturl", async function (req, res) {
     const url = await URL.findOne({ short_url });
     res.redirect(url.original_url);
   } catch (e) {
+    console.error("failed to retrive by short url");
     console.error(e);
     return res.json({ error: "Error Occurred. You broke my code" });
   }
