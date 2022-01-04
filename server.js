@@ -18,8 +18,7 @@ app.get("/", function (req, res) {
   res.sendFile(process.cwd() + "/views/index.html");
 });
 
-// Your first API endpoint
-app.post("/api/shorturl", async function (req, res) {
+const createURL = async (req, res) => {
   const original_url = req.body.url;
   const regex = /^http:\/\//;
   if (!original_url.match(regex)) return res.json({ error: "invalid url" });
@@ -32,10 +31,17 @@ app.post("/api/shorturl", async function (req, res) {
     console.error(e);
     return res.json({ error: "Error Occurred. You broke my code" });
   }
+};
+
+// Your first API endpoint
+app.post("/api/shorturl", async function (req, res) {
+  return await createURL(req, res);
 });
 
 app.get("/api/shorturl/:short_url", async function (req, res) {
-  console.log(req.params);
+  if (!req.params) {
+    return await createURL(req, res);
+  }
   try {
     const short_url = parseInt(req.params.short_url);
     const url = await URL.findOne({ short_url });
